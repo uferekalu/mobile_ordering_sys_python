@@ -9,132 +9,191 @@ def signup():
     password = input("Enter your password: ")
     confirm_password = input("Confirm your password: ")
 
-    if (len(users_information) != 0):
-        if (data['number'] == contact_number for data in users_information):
+    for data in users_information:
+        if (data['number'] == contact_number):
             print('Please User with Mobile Number {} already exists'.format(contact_number))
             print('Sign in instead')
-            signin()         
-    else:
-        if (validate_dob(date_of_birth)):
-            if (age_eligibility(date_of_birth) >= 21):
-                if (mobile_check(contact_number)):
-                    if (password_check(password)):
-                        if confirm_password == password:
-                            user_info = {
-                                "name": full_name,
-                                "number": contact_number,
-                                'dob': date_of_birth,
-                                "password": password
-                            }
-                            users_information.append(user_info)
-                            print("You have successfully signed up!")
-                            print(users_information)
-                        else:
-                            print("Your passwords are not matching")
-                            print("Please start again:")
-                            signup()
+            signin() 
+                     
+    if (validate_dob(date_of_birth)):
+        if (age_eligibility(date_of_birth) >= 21):
+            if (mobile_check(contact_number)):
+                if (password_check(password)):
+                    if confirm_password == password:
+                        user_info = {
+                            "name": full_name,
+                            "number": contact_number,
+                            'dob': date_of_birth,
+                            "password": password
+                        }
+                        users_information.append(user_info)
+                        print("||||||||||")
+                        print("||||||||||")
+                        print("||||||||||")
+                        print("||||||||||")
+                        print("You have successfully signed up!")
+                        # print(users_information)
                     else:
-                        print("Password must begin with alphabets followed by either one of @, & and ends with numbers (For Example: Sam@0125, Sam&25)")
-                        print("Please start again")
+                        print("Your passwords are not matching")
+                        print("Please start again:")
                         signup()
                 else:
-                    print("Mobile Numbers must all be numbers and must be 10 digits and starts with 0")
+                    print("Password must begin with alphabets followed by either one of @, & and ends with numbers (For Example: Sam@0125, Sam&25)")
                     print("Please start again")
                     signup()
             else:
-                print("You must be at least 21 years old to be able to signup")
+                print("Mobile Numbers must all be numbers and must be 10 digits and starts with 0")
                 print("Please start again")
                 signup()
         else:
-            print("You have entered the Date of Birth in Invalid format")
+            print("You must be at least 21 years old to be able to signup")
             print("Please start again")
             signup()
+    else:
+        print("You have entered the Date of Birth in Invalid format")
+        print("Please start again")
+        signup()
 
 
 def signin():
     number = input("Please enter your Username (Mobile Number): ")
     password = input("please enter your password: ")
-    print(users_information)
+    # print(users_information)
 
     if (len(users_information) == 0):
-        print("Please the user with Mobile Number " + number + " does not exist")
-        print("Sign up instead")
+        print("||||||||||")
+        print("||||||||||")
+        print("||||||||||")
+        print("||||||||||")
+        print("You have not signed up with this Contact Number, Please sign up first.")
         signup()
-    else:
-        for data in users_information:
-            if (data['number'] == number):
-                for k, v in data.items():
-                    # print(k, v)
-                    if (k == "password" and v == password):
-                        print("You have successfully signed in")
-                        print("Welcome " + data['name'])
-                        password_reset_or_signout()
-                    
-                    if (k == "password" and v != password):
-                        print("You have entered the wrong Password")
-                        print("Please try again")
-                        signin()
-            else:
+        return
+
+    for data in users_information:
+        if (mobile_check(number)):
+            if (data['number'] != number and data['password'] != password):
+                print("||||||||||")
+                print("||||||||||")
+                print("||||||||||")
+                print("||||||||||")
+                print("You have not signed up with this Contact Number, Please sign up first.")
+                signup()
+                return
+        else:
+            print("Mobile Numbers must all be numbers and must be 10 digits and starts with 0")
+            print("Please start again")
+            signin()
+    
+    for data in users_information:
+        if (mobile_check(number)):
+            if (data['number'] != number and data['password'] == password):
+                print("||||||||||")
+                print("||||||||||")
+                print("||||||||||")
+                print("||||||||||")
                 print("You have entered incorrect username")
                 print("Please try again")
                 signin()
+        else:
+            print("Mobile Numbers must all be numbers and must be 10 digits and starts with 0")
+            print("Please start again")
+            signin()
+
+    
+    for data in users_information:
+        if (data['number'] == number):
+            for k, v in data.items():
+                if (k == "password" and v != password):
+                    print("||||||||||")
+                    print("||||||||||")
+                    print("||||||||||")
+                    print("||||||||||")
+                    print("You have entered the wrong Password")
+                    print("Please try again")
+                    signin()
+    
+    for data in users_information:
+        if (data['number'] == number):
+            for k, v in data.items():
+                if (k == "password" and v == password):
+                    print("||||||||||")
+                    print("||||||||||") 
+                    print("||||||||||")
+                    print("||||||||||")
+                    print("You have successfully signed in")
+                    print("Welcome " + data['name'])
+                    password_reset_or_signout()        
+
                                 
-
-
-    # with open("users_information.txt", "r") as f:
-    #     stored_name, stored_number, stored_dob, stored_pass = f.read().split("\n")
-    # f.close()
-
-    # if number == stored_number and password == stored_pass:
-        # print("You have successfully signed in")
-        # print("Welcome " + stored_name)
-        # password_reset_or_signout()
-    # else:
-        # print("You have entered the wrong Password or incorrect username")
-        # print("Please try again")
-    #     i = 0
-    #     while (i < 2):
-    #         signin()
-    #         i += 1
-    #     print("You have used the maximum attempts of Login:")
-    #     print("Please reset the password by entering the below details:")
-    #     password_reset_or_signout()
-
 def password_reset_or_signout():
-    print("Please enter 1 for Resetting the password.")
-    print("Please enter 2 for Signout.")
+    while 1:
+        print("Please enter 1 for Resetting the password.")
+        print("Please enter 2 for Signout.")
 
-    character = int(input("Enter your choice: "))
-    if character == 1:
-        reset_password()
-    elif character == 2:
-        exit_program()
-    else:
-        print("You have entered wrong choice.")
-        password_reset_or_signout()
+        character = int(input("Enter your choice: "))
+        if character == 1:
+            reset_password()
+        elif character == 2:
+            exit_program()
+            break
+        else:
+            print("||||||||||")
+            print("||||||||||")
+            print("||||||||||")
+            print("||||||||||")
+            print("You have entered wrong choice.")
+            password_reset_or_signout()
 
 def reset_password():
     number = input("Please enter your Username (Mobile Number): ")
     password = input("Please enter your old password: ")
     new_password = input("please enter your new password: ")
 
-    with open("users_information.txt", "r") as f:
-        stored_name, stored_number, stored_dob, stored_pass = f.read().split("\n")
-    f.close()
+    for data in users_information:
+        if (data['number'] != number):
+            print("||||||||||")
+            print("||||||||||")
+            print("||||||||||")
+            print("||||||||||")
+            print("You have entered wrong Username")
+            print("Please try again")
+            reset_password()
 
-    if password != stored_pass:
-        print("Wrong password")
-        reset_password()
+    for data in users_information:
+        if (data['password'] != password):
+            print("||||||||||")
+            print("||||||||||")
+            print("||||||||||")
+            print("||||||||||")
+            print("You have entered wrong old password")
+            print("Please try again")
+            reset_password()
     
-    if number == stored_number:
-        with open("users_information.txt", "w") as f:
-            f.write(stored_name + "\n")
-            f.write(stored_number + "\n")
-            f.write(stored_dob + "\n")
-            f.write(new_password)
-        f.close()
-        print("Your password has been reset successfully!")
+    for data in users_information:
+        if (data['password'] == new_password):
+            print("||||||||||")
+            print("||||||||||")
+            print("||||||||||")
+            print("||||||||||")
+            print("You cannot use the password used earlier")
+            reset_password()
+    
+    if (password_check(new_password)):
+        for data in users_information:
+            data['password'] = new_password
+            print("||||||||||")
+            print("||||||||||")
+            print("||||||||||")
+            print("||||||||||")
+            print("Your password has been reset successfully!")
+    else:
+        print("||||||||||")
+        print("||||||||||")
+        print("||||||||||")
+        print("||||||||||")
+        print("Password must begin with alphabets followed by either one of @, & and ends with numbers (For Example: Sam@0125, Sam&25)")
         password_reset_or_signout()
+        
 
 def validate_dob(date):
     format = "%d/%m/%Y"
